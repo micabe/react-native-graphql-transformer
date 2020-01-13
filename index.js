@@ -1,4 +1,4 @@
-const gqlLoader = require('graphql-tag/loader');
+const gqlTransform = require('redux-saga-requests-graphql');
 const semver = require('semver');
 
 let upstreamTransformer = null;
@@ -29,10 +29,6 @@ if (metroVersion >= 51) {
   };
 }
 
-const gqlTransform = gqlLoader.bind({
-  cacheable: () => null,
-});
-
 function transform(src, filename, options) {
   if (typeof src === 'object') {
     // handle RN >= 0.46
@@ -42,7 +38,7 @@ function transform(src, filename, options) {
   // Do custom transformations
   let result = src;
   if (filename.endsWith('.gql') || filename.endsWith('.graphql')) {
-    result = gqlTransform(result);
+    result = gqlTransform.gql(result);
   }
 
   const babelCompileResult = upstreamTransformer.transform({
