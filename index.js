@@ -49,7 +49,7 @@ function transform(src, filename, options) {
   // Do custom transformations
   let result = src;
   if (filename.endsWith('.gql') || filename.endsWith('.graphql')) {
-    result = literal(useTemplate(result));
+    result = 'module.exports = ' + literal(useTemplate(result));
   }
 
   const babelCompileResult = upstreamTransformer.transform({
